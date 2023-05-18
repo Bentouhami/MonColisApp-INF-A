@@ -1,0 +1,377 @@
+<Window x:Class="MonColisApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MonColisApp.Views"
+        xmlns:models="clr-namespace:MonColisApp.Models" 
+        
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <!-- Style -->
+    <!--<Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#34495e"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width"  Value="155"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style TargetType="{x:Type MenuItem}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+    </Window.Resources>-->
+    <!-- Start -->
+    <StackPanel Background="#FF3A4A68" Height="Auto" Width="auto" 
+                MaxWidth="800"
+                MaxHeight="449">
+        <!-- Main Grid  -->
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="270*"/>
+                <ColumnDefinition Width="270*"/>
+                <ColumnDefinition Width="161*"/>
+
+            </Grid.ColumnDefinitions>
+
+            <!-- Menu -->
+            <StackPanel Grid.Column="1" 
+                        Grid.ColumnSpan="2"
+                        Grid.Row="0"
+                        MaxHeight="50"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        >
+                <Menu
+                        Background="#252525"
+                        Foreground="#EAEAEA"
+                        FontSize="16"
+                        IsMainMenu="True">
+                    
+                    <MenuItem Header="_Programme">
+                        <MenuItem Header="_Test" />
+                        <Separator />
+                        <MenuItem Header="_Exit"
+                                  Click="MenuItemExit_Click" />
+                    </MenuItem>
+                    <MenuItem Header="_Employées">
+                        <MenuItem Header="Ajouter" x:Name="MenuItemAddEmployees"  />
+                        <MenuItem Header="Afficher" x:Name="MenuItemShowEmployees" />
+                        <Separator />
+                        <MenuItem Header="Modifier" x:Name="MenuItemEditEmployees" />
+                        <Separator />
+                        <MenuItem Header="Supprimer" x:Name="MenuItemDeleteEmployees"  />
+                    </MenuItem>
+                    <MenuItem Header="_Utilisateurs">
+                        <MenuItem Header="Login" 
+                                    IsEnabled="{Binding IsNoUserLogged, 
+                            Mode=OneWay, 
+                            UpdateSourceTrigger=PropertyChanged}"
+                                    x:Name="MenuItemUsersLogin"
+                                    Click="MenuItemUsersLogin_Click" />
+                        <Separator />
+                        <MenuItem Header="Logout" 
+                                    x:Name="MenuItemUsersLogout" 
+                                    IsEnabled="{Binding IsUserLogged,
+                            Mode=OneWay, 
+                            UpdateSourceTrigger=PropertyChanged}"
+                                    Click="MenuItemUsersLogout_Click" />
+
+                        <MenuItem Header="Données personnelles"
+                                  IsEnabled="{Binding IsUserLogged, 
+                            Mode=OneWay,
+                            UpdateSourceTrigger=PropertyChanged}"
+                                  x:Name="MenuItemPersonalDatas" 
+                                  Click="MenuItemPersonalDatas_Click"/>
+
+                        <MenuItem Header="Gestion des utilisateurs"
+                                  x:Name="MenuItemManageUsers"
+                                  Click="MenuItemManageUsers_Click"/>
+                    </MenuItem>
+
+                    <MenuItem Header="_Parcels" >
+                        <MenuItem Header="Afficher Colis" 
+                                  x:Name="MenuItemShowParcels" 
+                                  Click="BtnShowParcels_Click" />
+
+                        <MenuItem Header="Ajouter Colis" 
+                                  x:Name="MenuItemAddParcels" />
+                        <Separator />
+                        <MenuItem Header="Supprimer Colis"
+                                  x:Name="MenuItemDelParcels"/>
+                        <Separator />
+                        <MenuItem Header="Editer Colis"
+                                  x:Name="MenuItemEditeParcels"/>
+                        <Separator />
+                        <MenuItem Header="Chercher un Colis"
+                                  x:Name="MenuItemSearchParcels"/>
+
+                    </MenuItem>
+
+                    <MenuItem Header="_Vehicles" >
+                        <MenuItem Header="Afficher Vehicules" 
+                                  x:Name="MenuItemShowVehicles"
+                                  Click="btnShowVehicles_Click"/>
+
+                        <MenuItem Header="Ajouter Vehicule" 
+                                  x:Name="MenuItemAddVehicles" />
+                        <Separator />
+                        <MenuItem Header="Supprimer Vehicule"
+                                  x:Name="MenuItemDellVehicle"/>
+                        <Separator />
+                        <MenuItem Header="Editer Vehicule"
+                                  x:Name="MenuItemEditeVehicles"/>
+                        <Separator />
+                        <MenuItem Header="Chercher un Vehicule"
+                                  x:Name="MenuItemSearchVehicls"/>
+
+                    </MenuItem>
+
+                    <MenuItem Header="_Societé" >
+                        <MenuItem Header="Afficher les informations" 
+                                  x:Name="CompanyInfos" />
+                        <Separator />
+                        <MenuItem Header="Gestion de Societé"/>
+                    </MenuItem>
+
+                </Menu>
+
+            </StackPanel>
+
+            <!-- Buttons -->
+            <StackPanel 
+                        x:Name="sp_userConnectedFullName"
+                        Background="Transparent" 
+                        Grid.Column="2"
+                        Grid.RowSpan="3" 
+                        Grid.ColumnSpan="2"
+                        Height="Auto" 
+                Margin="266,0,0,0"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                Width="Auto">
+                <StackPanel>
+                    <Label  Background="#FF252525"
+                        Content="Utilisateur Connecté:"
+                        x:Name="lbl_connectedUser" 
+                        HorizontalAlignment="Right"
+                        FontSize="16" 
+                        Foreground="White"/>
+                    <TextBlock Foreground="White"
+                           x:Name="txb_userConnectedFullName" 
+                           Text="{Binding UserConnected.FullName, 
+                    Mode=OneWay}" FontSize="18"
+                           HorizontalAlignment="Right"/>
+                    <Separator Background="Red"/>
+                </StackPanel>
+
+                <StackPanel Margin="20"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" >
+
+                    <Button x:Name="btnTestEmployee"
+                        Content="Test create employées"
+                            Height="auto"
+                            Width="auto"
+                        Click="BtnTestEmployee_Click"/>
+
+                    <Button x:Name="btnTestLambdasOnList"
+                        Content="Test LambdaList"   
+                         Click="ButtonTestLambdasOnList_Click"/>
+
+                    <Button x:Name="BtnAddParcel"
+                        Content="Add Parcel" 
+                        Click="BtnAddParcel_Click"/>
+
+                    <Button x:Name="btnShowParcels"
+                        Content="Afficher Parcels" 
+                        Click="BtnShowParcels_Click" />
+
+                    <Button x:Name="btnShowVehicles"
+                        Content="Afficher Vehicules" 
+                        Click="btnShowVehicles_Click" />
+                </StackPanel>
+
+            </StackPanel>
+
+            <!-- left side Buttons -->
+            <StackPanel Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.RowSpan="4"
+                        Background="CadetBlue"
+                        HorizontalAlignment="Stretch"
+                        Width="auto"
+                          
+                        Height="auto" 
+                        VerticalAlignment="Stretch" 
+                 >
+                <StackPanel.Effect>
+                    <DropShadowEffect/>
+                </StackPanel.Effect>
+                <StackPanel Height="auto"
+                            Width="auto">
+                    <Image Margin="10"
+                           Source="E:\ProjetPOO\MonColisApp\MonColisApp\Photos\icon pic lol.png" 
+                           Stretch="UniformToFill"/>
+                    <Separator 
+                        Background="White"/>
+                </StackPanel>
+                <StackPanel Grid.RowSpan="2"
+                            Height="Auto" 
+                            Width="auto"
+                            
+                            VerticalAlignment="Bottom" >
+                    <!--<Button Content="Choix de langue" />-->
+                    <ListBox BorderThickness="0"
+                             Background="Transparent" 
+                             x:Name="lstBx_leftMenu" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="15" 
+                                   Height="15" 
+                                   Source="/Views/dashboard.png" 
+                                   Cursor="Hand"/>
+                            <TextBlock Margin="5,0,0,0">
+                                Dashboard
+                            </TextBlock>
+                        </StackPanel>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="15" 
+                                       Height="15" 
+                                   Source="/Views/employe.png" 
+                                   Cursor="Hand"/>
+                                <TextBlock Margin="5,0,0,0">
+                                    Employées
+                                </TextBlock>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="15" Height="15" 
+                                   Source="/Views/clients.png" 
+                                   Cursor="Hand"/>
+                                <TextBlock Margin="5,0,0,0">
+                                    Utilisateurs
+                                </TextBlock>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="15" Height="15" 
+                                   Source="/Views/parcelle.png" 
+                                   Cursor="Hand"/>
+                                <TextBlock Margin="5,0,0,0">
+                                    Parcels
+                                </TextBlock>
+                            </StackPanel>
+
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="15" Height="15" 
+                                   Source="/Views/icons8-camion-64.png" 
+                                   Cursor="Hand"/>
+                                <TextBlock Margin="5,0,0,0">
+                                    Vehicles
+                                </TextBlock>
+                            </StackPanel>
+
+                        </ListBoxItem>
+
+                    </ListBox>
+                    <Button  Margin ="10" 
+                             x:Name="btn_leftCo"
+                        Content="Se connecter" 
+                        Width="auto" />
+                </StackPanel>
+                <!-- Other buttons here -->
+            </StackPanel>
+            <!-- Middle Buttons -->
+            <StackPanel
+                
+                Margin="10 10"
+                        Grid.Row="1" 
+                        Grid.Column="1"
+                        Height="auto" 
+                        Grid.ColumnSpan="2"
+                        Grid.RowSpan="3">
+                <!-- <Button Content="Choix de langue" /> -->
+                <Button 
+                    Content="Se connecter"
+                    Width="auto"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="10 10"/>
+
+                <!-- Other buttons here -->
+            </StackPanel>
+
+            <!-- Grid List of Users -->
+            <!--<StackPanel Grid.Row="1" Grid.Column="0" Margin="10 0 0 10">
+                <ListView x:Name="lsv_usersCollection" 
+                          ItemsSource="{Binding Users}"
+                          ScrollViewer.CanContentScroll="True" 
+                          Background="White" 
+                          d:ItemsSource="{d:SampleData ItemCount=5}" 
+                          Foreground="#FF1A1A1A" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding IdUser}" 
+                                            Header ="IdUser" Width="Auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding FirstName}" 
+                                            Header ="Prénom" Width="Auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding LastName}"
+                                            Header ="Nom" Width="Auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Address}" 
+                                            Header ="Address" Width="Auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Gender}"
+                                            Header ="Genre" Width="Auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Birthdate, StringFormat=\{0:dd/MM/yyyy\}}" Header ="Birthdate"
+                                            Width="Auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Picture}"
+                                            Header ="Picture" Width="Auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Phone}"
+                                            Header ="Phone" Width="Auto"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding Email}"
+                                            Header ="Email" Width="Auto"/>
+
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>-->
+
+            <StackPanel Grid.Row="3" 
+                        Grid.Column="1"
+                        Grid.ColumnSpan="3" HorizontalAlignment="Left" Width="691"
+                        >
+                <Separator VerticalAlignment="Bottom"
+                          Margin="0 60 0 0"  Background="Yellow"/>
+
+            </StackPanel>
+
+
+        </Grid>
+        <!-- Main Grid  -->
+
+        <!-- Main Grid  -->
+    </StackPanel>
+</Window>
